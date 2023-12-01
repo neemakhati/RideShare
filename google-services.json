@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "799228049527",
+    "project_id": "carshare-f9266",
+    "storage_bucket": "carshare-f9266.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799228049527:android:a39f21935bd5450ebeee72",
+        "android_client_info": {
+          "package_name": "com.neema.khati.CarPooling"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799228049527-ev58pmuabrlf8n9tumrv0sdv93jdr6ck.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.neema.khati.CarPooling",
+            "certificate_hash": "002ca9c06e91dfaad0b4f995a536b2b18130204c"
+          }
+        },
+        {
+          "client_id": "799228049527-jcdco3p24ukvc3d2rehibmo1numhf6f9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnTNLxDDIJa2X9CDPK_-qJdR2LCX3NFWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799228049527-jcdco3p24ukvc3d2rehibmo1numhf6f9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
