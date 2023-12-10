@@ -4,6 +4,7 @@ import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert} from 'react
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./src/screens/LoginScreen";
+import LoginDriver from "./src/screens/LoginDriver";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import MapScreen from "./src/screens/MapScreen";
@@ -19,6 +20,8 @@ import firebase from '@react-native-firebase/app';
 import SignUpDriver from './src/screens/SignUpDriver';
 import NotificationScreen from './src/screens/NotificationScreen';
 import DriverScreen from './src/screens/DriverScreen';
+import RoleSelectionScreen from './src/screens/RoleSelectionScreen';
+import FirstScreen from './src/screens/FirstScreen';
 
 
 const Stack = createStackNavigator();
@@ -26,20 +29,24 @@ const Stack = createStackNavigator();
 const StackNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName='Login'
+      initialRouteName='First'
       screenOptions={{
         headerShown: false,
         cardStyle: { backgroundColor: '#FFFFFF' },
       }}
     >
+      <Stack.Screen name="First" component={FirstScreen}/>
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="LoginDriver" component={LoginDriver} />
+      <Stack.Screen name="RoleSelection" component={RoleSelectionScreen} />
+      
       <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="SignUpDriver" component={SignUpDriver} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Map" component={MapScreen} />
       <Stack.Screen name="Profile" component={ProfileInfoScreen} />
       <Stack.Screen name="Request" component={RequestScreen} />
       <Stack.Screen name="Accept" component={AcceptScreen} />
-      <Stack.Screen name="SignUpDriver" component={SignUpDriver} />
     </Stack.Navigator>
   )
 }

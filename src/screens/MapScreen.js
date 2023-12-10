@@ -44,7 +44,7 @@ function InputAutocomplete({
                         onPlaceSelected(details);
                     }}
                     query={{
-                        key: 'AIzaSyBSePaY3qzjJs0OewXv5KE_OmmSGfpt_nk',
+                        key: 'AIzaSyAB97Yr2obsbwz3BaBzD-9JoIw6O5IB3Jo',
                         language: 'en',
                     }}
                 />
@@ -147,7 +147,7 @@ const MapScreen = ({navigation}) => {
                 (<MapViewDirections
                     origin={origin ? origin : location}
                     destination={destination}
-                    apikey='AIzaSyAsB0o_NDhsStJEq1JBTEcAcrhiCgwMCh4'
+                    apikey='AIzaSyAB97Yr2obsbwz3BaBzD-9JoIw6O5IB3Jo'
                     strokeColor='#6644ff'
                     strokeWidth={4}
                     onReady={traceRouteOnReady}

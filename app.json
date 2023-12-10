@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "CarPooling",
-    "slug": "CarPooling",
+    "slug": "carpool",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,7 +28,7 @@
       ],
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyCWCzFY6pMyz1BqW_W1EX9v8L2KO2NAjyk"
+          "apiKey": "AIzaSyAB97Yr2obsbwz3BaBzD-9JoIw6O5IB3Jo"
         }
       },
       "googleServicesFile": "./google-services.json",
@@ -43,7 +43,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "7709e40d-89a5-4b83-9a14-9154f0cb086b"
+        "projectId": "368de779-2665-4501-a28f-55afb3a7a3fa"
       }
     },
     "plugins" : [

@@ -6,7 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { useDispatch } from 'react-redux';
 
-const LoginScreen = ({ navigation }) => {
+const LoginDriver = ({ navigation }) => {
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
@@ -48,9 +48,7 @@ const LoginScreen = ({ navigation }) => {
                                         token: token
                                     })
                               }); 
-                              console.log('Before navigation to Home');
                               navigation.navigate('Home');
-                              console.log('After navigation to Home');
                         }
                   })();
     
@@ -60,9 +58,7 @@ const LoginScreen = ({ navigation }) => {
                 console.log(errorMessage);
             })
         }
-        const handleSignup = () => { 
-                navigation.navigate('RoleSelection');
-        }
+       
 
     return <View style={styles.container}>
         <Text style={styles.heading}>Login</Text>
@@ -95,7 +91,7 @@ const LoginScreen = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity 
                 style={styles.button}
-                onPress={() => navigation.navigate('SignUp')}
+                onPress={() => navigation.navigate('SignUpDriver')}
         >
             <Text style={styles.buttonText}>SIGNUP</Text>
         </TouchableOpacity>
@@ -152,6 +148,6 @@ const styles = StyleSheet.create({
     }
 });
 
-export default LoginScreen;
+export default LoginDriver;
 
 
