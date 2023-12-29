@@ -39,19 +39,20 @@ const LoginScreen = ({ navigation }) => {
                                   dispatch({type: 'phone', payload: querySnapshot.data().phone});
 
                             navigation.navigate('Map');
-                        } else {
-                            messaging().getToken().then(token => {  
-                                firestore()
-                                    .collection('car_db')
-                                    .doc(uid)
-                                    .update({
-                                        token: token
-                                    })
-                              }); 
-                              console.log('Before navigation to Home');
-                              navigation.navigate('Home');
-                              console.log('After navigation to Home');
-                        }
+                        } 
+                        // else {
+                        //     messaging().getToken().then(token => {  
+                        //         firestore()
+                        //             .collection('car_db')
+                        //             .doc(uid)
+                        //             .update({
+                        //                 token: token
+                        //             })
+                        //       }); 
+                        //       console.log('Before navigation to Home');
+                        //       navigation.navigate('Home');
+                        //       console.log('After navigation to Home');
+                        // }
                   })();
     
             })
