@@ -7,7 +7,7 @@ const NotificationScreen = ({handleNotification, remoteMessage}) => {
     const [visible, setVisible] = useState(false);
 
     const twoWayNoti = () =>{
-        fetch('https://8a33-110-44-116-42.ngrok.io/two-way-noti',{
+        fetch('https://93c1-118-91-175-99.ngrok/two-way-noti',{
                 method:'post',
                 headers:{
                     'Content-Type': 'application/json'
@@ -18,7 +18,9 @@ const NotificationScreen = ({handleNotification, remoteMessage}) => {
                     phone: remoteMessage.data.dPhone,
                     token: remoteMessage.data.pToken
                 })
+                
             })
+            console.console.log(remoteMessage.data.dName, remoteMessage.data.dNum, remoteMessage.data.dPhone, remoteMessage.data.pToken);
     }
 
     return (

@@ -23,11 +23,11 @@ const LoginDriver = ({ navigation }) => {
 
                 dispatch({type: 'uid', payload: uid});
                   (async () => {
-                    const querySnapshot = await firestore().collection('users').doc(uid).get();
+                    const querySnapshot = await firestore().collection('car_db').doc(uid).get();
                         if (querySnapshot.exists) {
                             messaging().getToken().then(token => {  
                                     firestore()
-                                        .collection('users')
+                                        .collection('car_db')
                                         .doc(uid)
                                         .update({
                                             token: token
@@ -38,18 +38,19 @@ const LoginDriver = ({ navigation }) => {
                                   dispatch({type: 'name', payload: querySnapshot.data().name});
                                   dispatch({type: 'phone', payload: querySnapshot.data().phone});
 
-                            navigation.navigate('Map');
-                        } else {
-                            messaging().getToken().then(token => {  
-                                firestore()
-                                    .collection('car_db')
-                                    .doc(uid)
-                                    .update({
-                                        token: token
-                                    })
-                              }); 
-                              navigation.navigate('Home');
-                        }
+                            navigation.navigate('Home');
+                        } 
+                        // else {
+                        //     messaging().getToken().then(token => {  
+                        //         firestore()
+                        //             .collection('car_db')
+                        //             .doc(uid)
+                        //             .update({
+                        //                 token: token
+                        //             })
+                        //       }); 
+                        //       navigation.navigate('Home');
+                        // }
                   })();
     
             })
