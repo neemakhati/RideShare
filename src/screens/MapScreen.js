@@ -8,7 +8,7 @@ import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import store from '../store';
 import firestore from '@react-native-firebase/firestore'; 
-
+//MOdify passenger Screen
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width/height;
 const LATITUDE_DELTA = 0.02;
