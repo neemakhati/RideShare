@@ -19,23 +19,31 @@ export default function RequestScreen({navigation}){
     useEffect(() => {
         async function getData() {
             const myArrary = [];
-            const carSnapshot = await firestore().collection('car_db').get();
-            carSnapshot.forEach(car => {
-                myArrary.push({
-                    availableSeat: car.data().seats,
-                    location: {
-                        lat2: car.data().location.latitude,
-                        lon2: car.data().location.longitude
-                    },
-                    name: car.data().name,
-                    num: car.data().num,
-                    phone: car.data().phone,
-                    token: car.data().token,
-                    distance: 0,
+            try {
+                const carSnapshot = await firestore().collection('car_db').get();
+                carSnapshot.forEach(car => {
+                    const carData = car.data();
+                    if (carData.location && carData.location.latitude && carData.location.longitude) {
+                        myArrary.push({
+                            availableSeat: carData.seats || 0,
+                            location: {
+                                lat2: carData.location.latitude,
+                                lon2: carData.location.longitude
+                            },
+                            name: carData.name || 'N/A',
+                            num: carData.num || 'N/A',
+                            phone: carData.phone || 'N/A',
+                            token: carData.token || 'N/A',
+                            distance: 0,
+                        });
+                    }
                 });
-            });
+            } catch (error) {
+                console.error('Error fetching car data:', error);
+            }
             return myArrary;
         }
+        
 
         getData()
             .then(data => {
