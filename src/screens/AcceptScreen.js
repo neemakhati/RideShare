@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-
+//TESTING COMMIT 
 const AcceptScreen = () => {
   const info = useSelector(state => state.info);
 
