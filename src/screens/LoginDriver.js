@@ -30,7 +30,7 @@ const LoginDriver = ({ navigation }) => {
                                         .collection('car_db')
                                         .doc(uid)
                                         .update({
-                                            token: token
+                                            fcmToken: token
                                         })
                                         
                                         dispatch({type: 'token', payload: querySnapshot.data().token});

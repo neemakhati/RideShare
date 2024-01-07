@@ -1,69 +1,73 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import firestore from '@react-native-firebase/firestore';
 
-const DriverDetail = ({ name, num, distance, availableSeat, deleteItem, index, navigation, token, phone }) => {
+const DriverDetail = ({ name, num, distance, availableSeat, deleteItem, index, navigation, token, phone,uid}) => {
     const dispatch = useDispatch();
     const pToken = useSelector(state => state.token);
     const origin = useSelector(state => state.origin);
     const myName = useSelector(state => state.name);
     const myPhone = useSelector(state => state.phone);
     const destination = useSelector(state => state.destination);
+    const myuid = useSelector(state => state.uid);
 
-    const sendNoti = ()=>{
-        fetch('https://8a33-110-44-116-42.ngrok.io/send-noti',{
-                method:'post',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                body:JSON.stringify({
-                    name: myName,
-                    phone: myPhone,
-                    origin: origin,
-                    destination: destination,
-                    dToken: token,
-                    dName: name,
-                    dPhone: phone,
-                    dNum: num,
-                    pToken: pToken
-                })
-            })
-    }
 
-    return(
+    const sendRideRequest = async (user_id, driver_id,origin,destination,user_name,driver_name,distance) => {
+        const request = {
+          user_id: user_id,
+          driver_id: driver_id,
+          status: 'pending', // Initial status
+          timestamp: firestore.FieldValue.serverTimestamp(),
+          origin:origin,
+          destination:destination,
+          user_name:user_name,
+          driver_name:driver_name,
+          distance:distance,
+        };
+      
+        try {
+          await firestore().collection('ride_requests').add(request);
+          console.log('Ride request sent successfully!');
+        } catch (error) {
+          console.error('Error sending ride request:', error);
+        }
+      };
+
+    return (
         <View style={styles.cardStyle}>
             <View style={styles.container}>
                 <Image style={styles.imageStyle} source={require('../../assets/Car2.jpg')} />
-                <View style={{justifyContent: 'center'}}>
+                <View style={{ justifyContent: 'center' }}>
                     <Text>Name: {name}</Text>
                     <Text>Car Plate: {num}</Text>
                     <Text>Distance: {distance} Km</Text>
                     <Text>Available Seats: {availableSeat}</Text>
                 </View>
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                <TouchableOpacity 
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
-                        dispatch({type: 'info', payload: {
-                            name: name,
-                            car_num: num,
-                            phone: phone
-                        }})
-                        navigation.navigate('Accept')
-                        sendNoti();
+                        dispatch({
+                            type: 'info', payload: {
+                                name: name,
+                                car_num: num,
+                                phone: phone
+                            }
+                        })
+                        navigation.navigate('Accept');
+                        sendRideRequest(myuid,uid,origin,destination,myName,name,distance)  
                     }}
-
                 >
                     <Text style={styles.buttonText}>REQUEST</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity 
-                    style={{color: 'white', backgroundColor: 'rgb(227, 57, 62)', borderRadius: 17,
-                    padding: 7, marginBottom: 10, width: '45%'}}
+                <TouchableOpacity
+                    style={{ color: 'white', backgroundColor: 'rgb(227, 57, 62)', borderRadius: 17, padding: 7, marginBottom: 10, width: '45%' }}
                     onPress={() => deleteItem(index)}
                 >
-                    <Text style={{color: 'white', fontWeight: 'bold', textAlign: 'center', fontSize: 15,}}>REJECT</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center', fontSize: 15 }}>REJECT</Text>
                 </TouchableOpacity>
             </View>
         </View>
