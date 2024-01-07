@@ -17,7 +17,6 @@ export function KNN(data, point, k) {
   // Filter out drivers with available seats less than the requested number
   data = data.filter(driver => driver.availableSeat >= point.requiredSeat); // Ensure available seats are greater than or equal to the requested number
   console.log(data);
-  console.log("ji");
   // If there are no eligible drivers, return an empty array
   if (data.length === 0) {
     return [];

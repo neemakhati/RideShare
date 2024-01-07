@@ -58,6 +58,7 @@ export default function RequestScreen({navigation}){
                 setData(nearestNeighbors);
             })
     }, []);
+    console.log(data);
 
     const deleteItem = (index) => {
         const newData =[...data];
