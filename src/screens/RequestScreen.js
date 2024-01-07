@@ -35,6 +35,7 @@ export default function RequestScreen({navigation}){
                             phone: carData.phone || 'N/A',
                             token: carData.token || 'N/A',
                             distance: 0,
+                            uid:carData.uid
                         });
                     }
                 });
@@ -82,6 +83,7 @@ export default function RequestScreen({navigation}){
                             navigation={navigation}
                             token={item.token}
                             phone={item.phone}
+                            uid={item.uid}
                         />
                     )
                 }}
