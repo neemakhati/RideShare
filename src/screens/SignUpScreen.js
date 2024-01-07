@@ -210,6 +210,7 @@ const styles = StyleSheet.create({
         width: '80%',
     },
     heading: {
+        color:"black",
         fontSize: 26,
         fontWeight: 'bold',
         alignSelf: 'center',
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
     },
     button: {
         color: 'white',
-        backgroundColor: 'blue',
+        backgroundColor: '#2196F3',
         borderRadius: 17,
         padding: 7,
         marginTop: 30,

@@ -239,12 +239,13 @@ const styles = StyleSheet.create({
         borderWidth:1,
     },
     button:{
-        backgroundColor:"#bbb",
+        backgroundColor: "#2196F3", /* Gradient from left to right */
         paddingVertical:12,
         marginTop:16,
         borderRadius:4,
     },
     buttonText:{
+        color:"white",
         textAlign:"center",
     },
     inputStyle: {
