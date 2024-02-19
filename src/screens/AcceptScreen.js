@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import messaging from "@react-native-firebase/messaging";
+import { useSelector } from "react-redux";
 
 const AcceptScreen = () => {
-  const info = useSelector(state => state.info);
+  const info = useSelector((state) => state.info);
   const [notificationData, setNotificationData] = useState(null);
 
   useEffect(() => {
-    const unsubscribeForeground = messaging().onMessage(async remoteMessage => {
-      // Handle incoming notifications when the app is in the foreground
-      console.log('Received notification:', remoteMessage.notification);
-      setNotificationData(remoteMessage.notification);
-    });
-
-  
+    const unsubscribeForeground = messaging().onMessage(
+      async (remoteMessage) => {
+        // Handle incoming notifications when the app is in the foreground
+        console.log("Received notification:", remoteMessage.notification);
+        setNotificationData(remoteMessage.notification);
+      }
+    );
 
     return () => {
       unsubscribeForeground();
@@ -54,27 +54,27 @@ const AcceptScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: "#F5F5F5",
     padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
     elevation: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
   okButton: {
     marginTop: 20,
-    backgroundColor: 'green',
+    backgroundColor: "green",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,

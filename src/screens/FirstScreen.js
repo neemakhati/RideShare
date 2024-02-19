@@ -1,78 +1,82 @@
-import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { ImageBackground } from "react-native";
+import { Dimensions } from "react-native";
+import { Button } from "@rneui/themed";
+import { Text } from "@rneui/themed";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const FirstScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        <Text style={styles.title}>Welcome to {'\n'}Your App!</Text>
+    <ImageBackground
+      source={require("../../assets/WELCOME.png")}
+      style={[styles.background, { width: windowWidth, height: windowHeight }]}
+    >
+      {/* {/* <View style={styles.container}>
+        <View style={styles.card}>
+          <Text style={styles.title}>Welcome to {"\n"}Your App!</Text>
 
-        <TouchableOpacity 
-          style={[styles.roleButton, styles.passengerButton]}
-          onPress={() => navigation.navigate('Login')}
-        >
-          <Text style={styles.roleButtonText}>Passenger</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.roleButton, styles.passengerButton]}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={styles.roleButtonText}>Passenger</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={[styles.roleButton, styles.driverButton]}
-          onPress={() => navigation.navigate('LoginDriver')}
-        >
-          <Text style={styles.roleButtonText}>Driver</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.roleButton, styles.driverButton]}
+            onPress={() => navigation.navigate("LoginDriver")}
+          >
+            <Text style={styles.roleButtonText}>Driver</Text>
+          </TouchableOpacity>
+        </View>
+      </View> */}
+      <View style={styles.container}>
+        <View style={{ marginBottom: 0 }}>
+          <Text h2 h2Style={{ color: "#4b296b" }}>
+            Login
+          </Text>
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            buttonStyle={{ borderRadius: 10 }}
+            title={"Passenger"}
+            onPress={() => navigation.navigate("Login")}
+          ></Button>
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            buttonStyle={{ borderRadius: 10 }}
+            title={"Driver"}
+            onPress={() => navigation.navigate("LoginDriver")}
+          ></Button>
+        </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f0f0f0',
+    resizeMode: "cover",
+    justifyContent: "center",
   },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
-    width: '80%',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    alignItems: 'center',
+  container: {
+    position: "absolute",
+    bottom: 80, // Adjust this value to align the buttons nearly to the bottom
+    left: 0,
+    right: 0,
+    alignItems: "center",
   },
-  title: {
-    fontSize: 36,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#3498db',
-    textAlign: 'center',
+  buttonContainer: {
+    marginVertical: 10,
+    width: "80%", // Adjust this as needed
   },
-  roleButton: {
-    marginTop: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: '#3498db',
-    backgroundColor: 'blue', 
-    elevation: 3,
-  },
-  passengerButton: {
-    backgroundColor: 'blue', 
-  },
-  driverButton: {
-    marginTop: 15,
-    backgroundColor: 'blue', 
-  },
-  roleButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
-    textAlign: 'center',
+  button: {
+    height: 50, // Adjust this as needed
   },
 });
 
