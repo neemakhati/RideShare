@@ -96,7 +96,7 @@ const DriverDetail = ({
         <TouchableOpacity
           style={{
             color: "white",
-            backgroundColor: "#FF5964",
+            backgroundColor: "#C30101",
             borderRadius: 17,
             padding: 7,
             marginBottom: 10,
@@ -134,11 +134,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     width: 350,
-    backgroundColor: "#316995",
+    backgroundColor: "#2089dc",
   },
   button: {
     color: "white",
-    backgroundColor: "#0B5351",
+    backgroundColor: "#0e6a67",
     borderRadius: 17,
     padding: 7,
     marginBottom: 10,

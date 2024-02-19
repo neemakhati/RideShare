@@ -1,26 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Modal,
-  Button,
+  ScrollView,
 } from "react-native";
 import firestore from "@react-native-firebase/firestore";
+import firebase from "@react-native-firebase/app"; // Import firebase
+import { useNavigation } from "@react-navigation/native";
+import RideContext from "./RideIdContext";
 
-const DriverScreen = ({ remoteMessage }) => {
+const DriverScreen = ({ route }) => {
+  const { remoteMessage } = route.params;
+  const navigation = useNavigation(); // Initialize useNavigation hook
+
   const [rideDetails, setRideDetails] = useState(null);
-  const [modalVisible, setModalVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Add state to track loading
+  const { rideId, setRideId } = useContext(RideContext);
 
   useEffect(() => {
     const fetchRideDetails = async () => {
       try {
         if (!rideDetails) {
-          const rideId = remoteMessage.data.requestId;
+          const currentRideId = remoteMessage.data.requestId;
+          setRideId(remoteMessage.data.requestId); // Set rideId in the context
+          console.log(currentRideId + " from driver screen");
+
           const rideSnapshot = await firestore()
             .collection("ride_requests")
-            .doc(rideId)
+            .doc(currentRideId)
             .get();
 
           if (rideSnapshot.exists) {
@@ -32,16 +41,13 @@ const DriverScreen = ({ remoteMessage }) => {
         }
       } catch (error) {
         console.error("Error fetching ride details:", error);
+      } finally {
+        setIsLoading(false); // Set loading state to false
       }
     };
 
     fetchRideDetails();
-  }, []);
-
-  const closeModal = () => {
-    setModalVisible(false);
-    // Optionally, you can navigate away from this screen or perform other actions upon closing the modal
-  };
+  }, [remoteMessage]);
 
   const updateStatus = async (action) => {
     try {
@@ -53,7 +59,19 @@ const DriverScreen = ({ remoteMessage }) => {
           status: action === "accept" ? "Accepted" : "Rejected",
         });
 
-      closeModal();
+      setRideDetails(rideDetails); // Save ride details after action
+
+      // Check if the current user is a driver and then navigate to the map
+      const currentUser = firebase.auth().currentUser;
+      if (
+        currentUser &&
+        rideDetails.driver_id === currentUser.uid &&
+        action === "accept"
+      ) {
+        navigation.navigate("EmptyScreen"); // Navigate to the map screen
+      } else if (action === "reject") {
+        navigation.navigate("Home"); // Navigate to the map screen
+      }
     } catch (error) {
       console.error("Error updating status:", error);
     }
@@ -61,48 +79,48 @@ const DriverScreen = ({ remoteMessage }) => {
 
   return (
     <View style={styles.container}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={closeModal}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            {rideDetails ? (
-              <>
-                <Text style={styles.detailItem}>
-                  Passenger: {rideDetails.user_name}
-                </Text>
-                <Text style={styles.detailItem}>
-                  Destination: {rideDetails.destination}
-                </Text>
-                <Text style={styles.detailItem}>
-                  Pickup Location: {rideDetails.origin}
-                </Text>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        {rideDetails && isLoading ? (
+          <Text>Loading ride details...</Text>
+        ) : (
+          <>
+            <Text style={styles.detailItem}>
+              Passenger:{" "}
+              {rideDetails && rideDetails.user_name
+                ? rideDetails.user_name
+                : "Unknown"}
+            </Text>
+            <Text style={styles.detailItem}>
+              Destination:{" "}
+              {rideDetails && rideDetails.destination
+                ? rideDetails.destination
+                : "Unknown"}
+            </Text>
+            <Text style={styles.detailItem}>
+              Pickup Location:{" "}
+              {rideDetails && rideDetails.origin
+                ? rideDetails.origin
+                : "Unknown"}
+            </Text>
 
-                <Text style={styles.infoText}>Have a safe journey!</Text>
+            <Text style={styles.infoText}>Have a safe journey!</Text>
 
-                <TouchableOpacity
-                  style={styles.acceptButton}
-                  onPress={() => updateStatus("accept")}
-                >
-                  <Text style={styles.buttonText}>ACCEPT</Text>
-                </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.acceptButton]}
+              onPress={() => updateStatus("accept")}
+            >
+              <Text style={styles.buttonText}>ACCEPT</Text>
+            </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={styles.rejectButton}
-                  onPress={() => updateStatus("reject")}
-                >
-                  <Text style={styles.buttonText}>REJECT</Text>
-                </TouchableOpacity>
-              </>
-            ) : (
-              <Text>Loading ride details...</Text>
-            )}
-          </View>
-        </View>
-      </Modal>
+            <TouchableOpacity
+              style={[styles.button, styles.rejectButton]}
+              onPress={() => updateStatus("reject")}
+            >
+              <Text style={styles.buttonText}>REJECT</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </ScrollView>
     </View>
   );
 };
@@ -110,20 +128,21 @@ const DriverScreen = ({ remoteMessage }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
-  },
-  modalContent: {
-    backgroundColor: "white",
     padding: 20,
+    backgroundColor: "#ffffff",
     borderRadius: 10,
     elevation: 5,
+    shadowColor: "#000000",
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    shadowOffset: {
+      height: 1,
+      width: 1,
+    },
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: "center",
   },
   detailItem: {
     fontSize: 16,
@@ -134,19 +153,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 20,
   },
-  acceptButton: {
+  button: {
     marginTop: 20,
-    backgroundColor: "green",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  acceptButton: {
+    backgroundColor: "#0e6a67",
   },
   rejectButton: {
-    marginTop: 10,
-    backgroundColor: "red",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+    backgroundColor: "#C30101",
   },
   buttonText: {
     color: "white",

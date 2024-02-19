@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 import messaging from "@react-native-firebase/messaging";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
+import { Dimensions } from "react-native";
+import { Button } from "@rneui/themed";
 
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const AcceptScreen = () => {
   const info = useSelector((state) => state.info);
   const [notificationData, setNotificationData] = useState(null);
+  const navigation = useNavigation(); // Get navigation object using useNavigation hook
 
   useEffect(() => {
     const unsubscribeForeground = messaging().onMessage(
@@ -21,33 +33,53 @@ const AcceptScreen = () => {
     };
   }, []);
 
-  const closeModal = () => {
+  const closeModalAndNavigate = () => {
+    if (notificationData && notificationData.title === "Ride Accepted") {
+      // If Ride Accepted, navigate to EmptyScreen
+      navigation.navigate("EmptyScreen", { rideDetails: notificationData });
+    } else {
+      // Otherwise, navigate to HomeScreen
+      navigation.navigate("Map");
+    }
     setNotificationData(null);
-    // Optionally, you can perform actions upon closing the modal
   };
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require("../../assets/wait.png")}
+      style={[styles.background, { width: windowWidth, height: windowHeight }]}
+    >
       {notificationData && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={true} // Always visible when there's a notification
-          onRequestClose={closeModal}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text>{notificationData.title}</Text>
-              <Text>{notificationData.body}</Text>
-              <TouchableOpacity style={styles.okButton} onPress={closeModal}>
-                <Text>OK</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
+        <View style={styles.notificationContainer}>
+          <Text
+            style={[
+              styles.notificationText,
+              {
+                color:
+                  notificationData.title === "Ride Accepted"
+                    ? "#0e6a67"
+                    : "#C30101",
+              },
+            ]}
+          >
+            {notificationData.title}
+          </Text>
+          <Text style={styles.notificationText}>{notificationData.body}</Text>
+          {/* <TouchableOpacity
+            style={styles.okButton}
+            onPress={closeModalAndNavigate}
+          >
+            <Text>OK</Text>
+          </TouchableOpacity> */}
+          <Button
+            buttonStyle={{ borderRadius: 10, backgroundColor: "#0e6a67" }}
+            title={"OK"}
+            onPress={closeModalAndNavigate}
+          ></Button>
+        </View>
       )}
-      <Text>Waiting for the Driver's response</Text>
-    </View>
+      {/* <Text>Waiting for the Driver's response</Text> */}
+    </ImageBackground>
   );
 };
 
@@ -59,18 +91,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  modalContainer: {
+  background: {
     flex: 1,
+    resizeMode: "cover",
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  modalContent: {
+  notificationContainer: {
     backgroundColor: "white",
-    padding: 20,
+    padding: 32,
+    margin: 20,
     borderRadius: 10,
-    elevation: 5,
+    elevation: 10,
     alignItems: "center",
+  },
+  notificationText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#4b296b",
   },
   okButton: {
     marginTop: 20,
@@ -79,6 +118,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
   },
+  rideAccept: {},
+  rideReject: {},
 });
 
 export default AcceptScreen;

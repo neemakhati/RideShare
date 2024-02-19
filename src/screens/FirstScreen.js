@@ -35,7 +35,7 @@ const FirstScreen = ({ navigation }) => {
       </View> */}
       <View style={styles.container}>
         <View style={{ marginBottom: 0 }}>
-          <Text h2 h2Style={{ color: "#4b296b" }}>
+          <Text h2 h2Style={{ color: "4b296b" }}>
             Login
           </Text>
         </View>
