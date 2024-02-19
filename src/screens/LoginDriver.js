@@ -18,7 +18,31 @@ const LoginDriver = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const handleLogin = () => {
+    let isValid = true;
+
+    // Basic validation checks
+    if (!email) {
+      setEmailError("Please enter your email.");
+      isValid = false;
+    } else {
+      setEmailError("");
+    }
+    if (!password) {
+      setPasswordError("Please enter your password.");
+      isValid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    // If isValid is false, return without attempting to log in
+    if (!isValid) {
+      return;
+    }
+
     auth()
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
@@ -75,7 +99,7 @@ const LoginDriver = ({ navigation }) => {
       <View style={styles.loginContainer}>
         <AntDesign
           name="login"
-          size={24}
+          size={45}
           color="#4b296b"
           style={styles.iconHead}
         />
@@ -98,6 +122,7 @@ const LoginDriver = ({ navigation }) => {
             onChangeText={(value) => setEmail(value)}
           />
         </View>
+        {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
       </View>
 
       <View style={styles.inputContainer}>
@@ -116,6 +141,9 @@ const LoginDriver = ({ navigation }) => {
             onChangeText={(value) => setPassword(value)}
           />
         </View>
+        {passwordError ? (
+          <Text style={styles.error}>{passwordError}</Text>
+        ) : null}
       </View>
 
       <Button
@@ -170,6 +198,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     alignItems: "center",
     padding: 5,
+  },
+  error: {
+    color: "#db5461",
   },
   label: {
     marginTop: 10,

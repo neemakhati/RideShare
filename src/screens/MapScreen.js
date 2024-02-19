@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
 import store from "../store";
 import firestore from "@react-native-firebase/firestore";
 import { Button } from "@rneui/themed";
+import ValidationDialog from "../components/ValidationDialog";
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -66,6 +67,9 @@ function InputAutocomplete({
 }
 const MapScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+
+  const [showValidationDialog, setShowValidationDialog] = useState(false);
+  const [validationMessage, setValidationMessage] = useState("");
 
   const [location, setLocation] = useState(null);
   useEffect(() => {
@@ -122,12 +126,21 @@ const MapScreen = ({ navigation }) => {
     }
   };
   const trackRoute = () => {
-    if (location && destination) {
-      setShowDirections(true);
-      mapRef.current?.fitToCoordinates([location, destination], {
-        edgePadding,
-      });
+    console.log("Origin:", origin);
+    console.log("Destination:", destination);
+
+    if (!origin || !destination) {
+      // If either origin or destination is missing, show validation message
+      console.log("Validation failed: Origin or destination is missing.");
+      setValidationMessage("Please select both origin and destination.");
+      setShowValidationDialog(true);
+      return; // Prevent further execution
     }
+
+    setShowDirections(true);
+    mapRef.current?.fitToCoordinates([origin, destination], {
+      edgePadding,
+    });
   };
   const onPlaceSelected = (
     details: GooglePlaceDetail | null,
@@ -251,6 +264,11 @@ const MapScreen = ({ navigation }) => {
           />
         </View>
       </View>
+      <ValidationDialog
+        visible={showValidationDialog}
+        message={validationMessage}
+        onClose={() => setShowValidationDialog(false)}
+      />
     </View>
   );
 };

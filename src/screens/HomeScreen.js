@@ -17,6 +17,7 @@ import {
 import * as Location from "expo-location";
 import { useSelector } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
+import { Button } from "@rneui/themed";
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -98,9 +99,18 @@ const HomeScreen = () => {
             keyboardType="numeric"
           />
         )}
-        <TouchableOpacity style={styles.button} onPress={handleOKButtonPress}>
+        {/* <TouchableOpacity style={styles.button} onPress={handleOKButtonPress}>
           <Text>OK</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <Button
+          onPress={handleOKButtonPress}
+          buttonStyle={{
+            marginLeft: 10,
+            borderRadius: 5,
+          }}
+        >
+          OK
+        </Button>
       </View>
     </View>
   );

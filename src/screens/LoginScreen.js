@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import messaging from "@react-native-firebase/messaging";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 import { useDispatch } from "react-redux";
+import { Text, Button } from "@rneui/themed";
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -18,7 +13,30 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const handleLogin = () => {
+    let isValid = true;
+
+    // Basic validation checks
+    if (!email) {
+      setEmailError("Please enter your email.");
+      isValid = false;
+    } else {
+      setEmailError("");
+    }
+    if (!password) {
+      setPasswordError("Please enter your password.");
+      isValid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    // If isValid is false, return without attempting to log in
+    if (!isValid) {
+      return;
+    }
     auth()
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
@@ -77,47 +95,69 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Logisn</Text>
+      <View style={styles.loginContainer}>
+        <AntDesign
+          name="login"
+          size={45}
+          color="#4b296b"
+          style={styles.iconHead}
+        />
+        <Text style={styles.heading}>Login</Text>
+      </View>
 
-      <Text style={{ marginTop: 30 }}>Email</Text>
       <View style={styles.inputContainer}>
-        <MaterialIcons
-          style={styles.icon}
-          name="email"
-          size={22}
-          color="gray"
-        />
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="Type your email"
-          value={email}
-          onChangeText={(value) => setEmail(value)}
-        />
+        <Text style={styles.label}>Email</Text>
+        <View style={styles.inputWrapper}>
+          <MaterialIcons
+            style={styles.icon}
+            name="email"
+            size={22}
+            color="#4b296b"
+          />
+          <TextInput
+            style={styles.inputStyle}
+            placeholder="Type your email"
+            value={email}
+            onChangeText={(value) => setEmail(value)}
+          />
+        </View>
+        {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
       </View>
-      <Text style={{ marginTop: 10 }}>Password</Text>
+
       <View style={styles.inputContainer}>
-        <MaterialIcons
-          style={styles.icon}
-          name="lock-outline"
-          size={22}
-          color="gray"
-        />
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="Type your password"
-          value={password}
-          onChangeText={(value) => setPassword(value)}
-        />
+        <Text style={styles.label}>Password</Text>
+        <View style={styles.inputWrapper}>
+          <MaterialIcons
+            style={styles.icon}
+            name="lock-outline"
+            size={22}
+            color="#4b296b"
+          />
+          <TextInput
+            style={styles.inputStyle}
+            placeholder="Type your password"
+            value={password}
+            onChangeText={(value) => setPassword(value)}
+          />
+        </View>
+        {passwordError ? (
+          <Text style={styles.error}>{passwordError}</Text>
+        ) : null}
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>LOGIN</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("SignUp")}
+
+      <Button
+        onPress={handleLogin}
+        buttonStyle={{ borderRadius: 10, marginTop: 10 }}
       >
-        <Text style={styles.buttonText}>SIGNUP</Text>
-      </TouchableOpacity>
+        Login
+      </Button>
+
+      <Button
+        onPress={() => navigation.navigate("SignUp")}
+        buttonStyle={{ borderRadius: 10, marginTop: 10 }}
+      >
+        SIGNUP
+      </Button>
     </View>
   );
 };
@@ -136,9 +176,12 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     alignSelf: "center",
+    color: "#4b296b",
+    marginLeft: 10,
   },
   inputStyle: {
     flex: 1,
+    color: "#4b296b",
   },
   icon: {
     marginHorizontal: 5,
@@ -146,11 +189,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   inputContainer: {
+    marginBottom: 10,
+    justifyContent: "center",
+  },
+  inputWrapper: {
     flexDirection: "row",
     borderBottomWidth: 1,
-    marginBottom: 10,
     alignItems: "center",
     padding: 5,
+  },
+  label: {
+    marginTop: 10,
+    color: "#4b296b",
   },
   button: {
     color: "white",
@@ -158,6 +208,9 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     padding: 7,
     marginTop: 30,
+  },
+  error: {
+    color: "#db5461",
   },
   buttonText: {
     color: "white",
@@ -168,6 +221,14 @@ const styles = StyleSheet.create({
   signUp: {
     fontWeight: "bold",
   },
+  loginContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+    justifyContent: "center",
+  },
+  iconHead: {
+    marginRight: 3,
+  },
 });
-
 export default LoginScreen;

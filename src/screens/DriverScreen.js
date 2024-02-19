@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 
-//Notification after the User le Request garcha
 const DriverScreen = ({ remoteMessage }) => {
   const [rideDetails, setRideDetails] = useState(null);
   const [modalVisible, setModalVisible] = useState(true);
@@ -41,6 +40,7 @@ const DriverScreen = ({ remoteMessage }) => {
 
   const closeModal = () => {
     setModalVisible(false);
+    // Optionally, you can navigate away from this screen or perform other actions upon closing the modal
   };
 
   const updateStatus = async (action) => {
@@ -112,13 +112,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent", // Ensure the background is transparent or matches the modal background
   },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)", // Adjust opacity if necessary
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContent: {
     backgroundColor: "white",
