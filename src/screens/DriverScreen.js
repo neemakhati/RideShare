@@ -84,26 +84,26 @@ const DriverScreen = ({ route }) => {
           <Text>Loading ride details...</Text>
         ) : (
           <>
-            <Text style={styles.detailItem}>
-              Passenger:{" "}
-              {rideDetails && rideDetails.user_name
-                ? rideDetails.user_name
-                : "Unknown"}
-            </Text>
-            <Text style={styles.detailItem}>
-              Destination:{" "}
-              {rideDetails && rideDetails.destination
-                ? rideDetails.destination
-                : "Unknown"}
-            </Text>
-            <Text style={styles.detailItem}>
-              Pickup Location:{" "}
-              {rideDetails && rideDetails.origin
-                ? rideDetails.origin
-                : "Unknown"}
-            </Text>
-
-            <Text style={styles.infoText}>Have a safe journey!</Text>
+            <View style={styles.innerContainer}>
+              <Text style={styles.detailItem}>
+                Passenger:{" "}
+                {rideDetails && rideDetails.user_name
+                  ? rideDetails.user_name
+                  : "Unknown"}
+              </Text>
+              <Text style={styles.detailItem}>
+                Destination:{" "}
+                {rideDetails && rideDetails.destination
+                  ? rideDetails.destination
+                  : "Unknown"}
+              </Text>
+              <Text style={styles.detailItem}>
+                Pickup Location:{" "}
+                {rideDetails && rideDetails.origin
+                  ? rideDetails.origin
+                  : "Unknown"}
+              </Text>
+            </View>
 
             <TouchableOpacity
               style={[styles.button, styles.acceptButton]}
@@ -147,11 +147,22 @@ const styles = StyleSheet.create({
   detailItem: {
     fontSize: 16,
     marginVertical: 5,
+    fontWeight: "bold",
   },
   infoText: {
     color: "blue",
     fontSize: 16,
     marginTop: 20,
+  },
+  innerContainer: {
+    elevation: 10,
+    padding: 25,
+    // shadowColor: "#000000",
+    // shadowOpacity: 0.3,
+    // shadowRadius: 3,
+    // shadowOffset: {
+    //   height: 1,
+    //   width: 1,
   },
   button: {
     marginTop: 20,

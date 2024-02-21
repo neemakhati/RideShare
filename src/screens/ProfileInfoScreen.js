@@ -1,12 +1,8 @@
-import React from 'react';
-import {StyleSheet } from 'react-native';
+import React from "react";
+import { StyleSheet } from "react-native";
 
-const ProfileInfoScreen = ({ uid }) => {
-  
-};
+const ProfileInfoScreen = ({ uid }) => {};
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
 
 export default ProfileInfoScreen;

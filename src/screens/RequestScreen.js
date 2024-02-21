@@ -10,6 +10,7 @@ import firestore from "@react-native-firebase/firestore";
 
 export default function RequestScreen({ navigation }) {
   const requiredSeat = useSelector((state) => state.requiredSeat);
+  console.log(requiredSeat + "is requested");
   const location = useSelector((state) => state.location);
 
   const [data, setData] = useState(null);

@@ -125,6 +125,14 @@ const MapScreen = ({ navigation }) => {
       setDuration(args.duration);
     }
   };
+  const calculateTotalCost = function (distance) {
+    const initialCost = 50;
+    const costPerKilometer = 15;
+    let totalCost = initialCost + distance * costPerKilometer;
+    totalCost = Math.ceil(totalCost); // Round up to the nearest integer
+
+    return Math.ceil(totalCost.toFixed(2));
+  };
   const trackRoute = () => {
     console.log("Origin:", origin);
     console.log("Destination:", destination);
@@ -232,6 +240,7 @@ const MapScreen = ({ navigation }) => {
           <View>
             <Text>Distance: {distance.toFixed(2)}</Text>
             <Text>Duration: {Math.ceil(duration)}mins</Text>
+            <Text>Total Cost: {"Rs. " + calculateTotalCost(distance)}</Text>
           </View>
         ) : null}
         {/* <TouchableOpacity
